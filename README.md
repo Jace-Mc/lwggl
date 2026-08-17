@@ -9,3 +9,41 @@
 - GLFW-3.6.1 ~ For OpenGL, Window and Inputs
 - GLAD ~ For loading OpenGL extensions.
 - OpenGL ~ Included with your operating system.
+
+# installation
+- In your command line:
+```sh
+# for GLFW
+#shell~$ go get github.com/lwggl/glfw
+
+# for GLAD
+#shell-$ go get github.com/lwggl/glad
+
+# for OpenGL 
+#shell-$ go get github.com/lwggl/opengl
+```
+
+# examples
+- More examples will be found in the examples directory.
+```go
+package main
+import (
+    "github.com/lwggl/glfw"
+    "github.com/lwggl/glad"
+    "github.com/lwggl/opengl"
+)
+
+func main() {
+    glfw.Init()
+    defer glfw.Terminate()
+
+    window := glfw.CreateWindow(200, 200, "My Window")
+    glfw.MakeContextCurrent(window)
+    glad.LoadGL()
+
+    for !glfw.WindowShouldClose(window) {
+        glfw.PollEvents()
+        glfw.SwapBuffers(window)
+    }
+}
+```

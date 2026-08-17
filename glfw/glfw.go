@@ -170,7 +170,7 @@ func PollEvents() {
 }
 
 func GetKey(key int) GLFWbool {
-	return C.glfwGetKey(key)
+	return C.glfwGetKey(C.int(key))
 }
 
 /**

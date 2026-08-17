@@ -15,6 +15,10 @@ func main() {
 	glad.LoadGL()
 
 	for !glfw.WindowShouldClose(window) {
+		if glfw.GetKey(glfw.KEY_A) == glfw.KEY_PRESS {
+			
+		}
+
 		glfw.PollEvents()
 		glfw.SwapBuffers(window)
 	}
