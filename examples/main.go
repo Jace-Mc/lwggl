@@ -1,25 +1,23 @@
 package examples
 
 import (
+	GLFW "github.com/Jace-Mc/lwggl/glfw"
 	"github.com/Jace-Mc/lwggl/glad"
-	"github.com/Jace-Mc/lwggl/glfw"
 )
 
 func main() {
-	glfw.Init()
-	defer glfw.Terminate()
+	GLFW.Init()
+	defer GLFW.Terminate()
 
-	glfw.WindowHint(glfw.WINDOW_RESIZABLE, glfw.FALSE)
-	window := glfw.CreateWindow(400, 400, "my window")
-	glfw.MakeContextCurrent(window)
+	window := GLFW.CreateWindow(400, 400, "My Window")
+	GLFW.MakeContextCurrent(window)
 	glad.LoadGL()
 
-	for !glfw.WindowShouldClose(window) {
-		if glfw.GetKey(glfw.KEY_A) == glfw.KEY_PRESS {
-
+	for !GLFW.WindowShouldClose(window) {
+		if GLFW.GetKey(GLFW.KEY_E) == GLFW.KEY_PRESS {
+			GLFW.SetWindowPos(10, 20)
 		}
-
-		glfw.PollEvents()
-		glfw.SwapBuffers(window)
+		GLFW.PollEvents()
+		GLFW.SwapBuffers(window)
 	}
 }
