@@ -1,7 +1,8 @@
 package glfw
 
 /*
-#include "../external/glfw/include/GLFW/glfw3.h"
+#cgo CFLAGS: -I ../external/glfw/include
+#include <GLFW/glfw3.h>
 #include <stdlib.h>
 
 GLFWwindow* window;
@@ -36,11 +37,14 @@ void SetWindowShouldClose(int value)
 	glfwSetWindowShouldClose(window, value);
 }
 
+int GetGLFWKey(int key)
+{
+	return glfwGetKey(window, key);
+}
+
 */
 import "C"
 import "unsafe"
-
-type GLFWbool = int
 
 // enum
 const (
@@ -48,46 +52,56 @@ const (
 	WINDOW_MINIMIZABLE int = 0x0026
 ) // WindowHints
 
+type GLFWbool int
+
 // enum 
 const (
-	TRUE = 1
-	FALSE = 0
+	TRUE GLFWbool = 1
+	FALSE GLFWbool = 0
 ) // Boolean Types
+
+type GLFWkey int
 
 // enum
 const (
-	KEY_A int = int(C.GLFW_KEY_A)
-	KEY_B int = int(C.GLFW_KEY_B)
-	KEY_C int = int(C.GLFW_KEY_C)
-	KEY_D int = int(C.GLFW_KEY_D)
-	KEY_E int = int(C.GLFW_KEY_E)
-	KEY_F int = int(C.GLFW_KEY_F)
-	KEY_G int = int(C.GLFW_KEY_G)
-	KEY_H int = int(C.GLFW_KEY_H)
-	KEY_I int = int(C.GLFW_KEY_I)
-	KEY_J int = int(C.GLFW_KEY_J)
-	KEY_K int = int(C.GLFW_KEY_K)
-	KEY_L int = int(C.GLFW_KEY_L)
-	KEY_M int = int(C.GLFW_KEY_M)
-	KEY_N int = int(C.GLFW_KEY_N)
-	KEY_O int = int(C.GLFW_KEY_O)
-	KEY_P int = int(C.GLFW_KEY_P)
-	KEY_Q int = int(C.GLFW_KEY_Q)
-	KEY_R int = int(C.GLFW_KEY_R)
-	KEY_S int = int(C.GLFW_KEY_S)
-	KEY_T int = int(C.GLFW_KEY_T)
-	KEY_U int = int(C.GLFW_KEY_U)
-	KEY_V int = int(C.GLFW_KEY_V)
-	KEY_W int = int(C.GLFW_KEY_W)
-	KEY_X int = int(C.GLFW_KEY_X)
-	KEY_Y int = int(C.GLFW_KEY_Y)
-	KEY_Z int = int(C.GLFW_KEY_Z)
-	KEY_RELEASE int = int(C.GLFW_KEY_RELEASE)
-	KEY_PRESS int = int(C.GLFW_KEY_PRESS)
-) // GLFWkeys
+	KeyA GLFWkey = C.GLFW_KEY_A
+	KeyB GLFWkey = C.GLFW_KEY_B
+	KeyC GLFWkey = C.GLFW_KEY_C	
+	KeyD GLFWkey = C.GLFW_KEY_D	
+	KeyE GLFWkey = C.GLFW_KEY_E	
+	KeyF GLFWkey = C.GLFW_KEY_F	
+	KeyG GLFWkey = C.GLFW_KEY_G
+	KeyH GLFWkey = C.GLFW_KEY_H	
+	KeyI GLFWkey = C.GLFW_KEY_I	
+	KeyJ GLFWkey = C.GLFW_KEY_J	
+	KeyK GLFWkey = C.GLFW_KEY_K
+	KeyL GLFWkey = C.GLFW_KEY_L
+	KeyM GLFWkey = C.GLFW_KEY_M
+	KeyN GLFWkey = C.GLFW_KEY_N
+	KeyO GLFWkey = C.GLFW_KEY_O
+	KeyP GLFWkey = C.GLFW_KEY_P
+	KeyQ GLFWkey = C.GLFW_KEY_Q
+	KeyR GLFWkey = C.GLFW_KEY_R
+	KeyS GLFWkey = C.GLFW_KEY_S
+	KeyT GLFWkey = C.GLFW_KEY_T
+	KeyU GLFWkey = C.GLFW_KEY_U
+	KeyV GLFWkey = C.GLFW_KEY_V
+	KeyW GLFWkey = C.GLFW_KEY_W
+	KeyX GLFWkey = C.GLFW_KEY_X
+	KeyY GLFWkey = C.GLFW_KEY_Y
+	KeyZ GLFWkey = C.GLFW_KEY_Z
+	KeyRelease GLFWkey = C.GLFW_RELEASE
+	KeyPress GLFWkey = C.GLFW_PRESS
+) // GLFWKeys
 
+//=======================
+// The struct GLFWwindow.
+//=======================
 type GLFWwindow struct {}
 
+//===========================
+// The struct _GLFWvideoMode.
+//===========================
 type _GLFWvideoMode struct {
 	width int
 	height int
@@ -179,7 +193,8 @@ func PollEvents() {
 }
 
 func GetKey(key int) GLFWbool {
-	return C.glfwGetKey(C.int(key))
+	_getkey := GLFWbool(C.GetGLFWKey(C.int(key)))
+	return _getkey
 }
 
 /**
@@ -195,10 +210,10 @@ func MakeContextCurrent(window GLFWwindow) {
 func WindowHint(Type int, value int) {
 	switch (Type) {
 		case WINDOW_RESIZABLE:
-			_glfw.hints.resizable = value
+			_glfw.hints.resizable = GLFWbool(value)
 
 		case WINDOW_MINIMIZABLE:
-			_glfw.hints.minimizable = value
+			_glfw.hints.minimizable = GLFWbool(value)
 	}
 }
 
