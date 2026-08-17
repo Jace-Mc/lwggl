@@ -14,13 +14,13 @@
 - In your command line:
 ```sh
 # for GLFW
-#shell~$ go get github.com/lwggl/glfw
+#shell~$ go get github.com/Jace-Mc/lwggl/glfw
 
 # for GLAD
-#shell-$ go get github.com/lwggl/glad
+#shell-$ go get github.com/Jace-Mc/lwggl/glad
 
 # for OpenGL 
-#shell-$ go get github.com/lwggl/opengl
+#shell-$ go get github.com/Jace-Mc/lwggl/opengl
 ```
 
 # examples
@@ -28,9 +28,9 @@
 ```go
 package main
 import (
-    "github.com/lwggl/glfw"
-    "github.com/lwggl/glad"
-    "github.com/lwggl/opengl"
+    "github.com/Jace-Mc/lwggl/glfw"
+    "github.com/Jace-Mc/lwggl/glad"
+    "github.com/Jace-Mc/lwggl/opengl"
 )
 
 func main() {
