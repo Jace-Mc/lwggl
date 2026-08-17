@@ -13,7 +13,7 @@ void InitGLFW(void)
 
 void CreateWindow(int width, int height, const char* title)
 {
-	window = glfwCreateWindow(width, height, title, NULL, NULL);
+	window int = glfwCreateWindow(width, height, title, NULL, NULL);
 }
 
 void MakeContextCurrent(void)
@@ -38,8 +38,8 @@ import "unsafe"
 type GLFWbool = int
 
 const (
-	WINDOW_RESIZABLE = 0x0023
-	WINDOW_MINIMIZABLE = 0x0026
+	WINDOW_RESIZABLE int = 0x0023
+	WINDOW_MINIMIZABLE int = 0x0026
 )
 
 const (
@@ -48,34 +48,34 @@ const (
 )
 
 const (
-	KEY_A = C.GLFW_KEY_A
-	KEY_B = C.GLFW_KEY_B
-	KEY_C = C.GLFW_KEY_C
-	KEY_D = C.GLFW_KEY_D
-	KEY_E = C.GLFW_KEY_E
-	KEY_F = C.GLFW_KEY_F
-	KEY_G = C.GLFW_KEY_G
-	KEY_H = C.GLFW_KEY_H
-	KEY_I = C.GLFW_KEY_I
-	KEY_J = C.GLFW_KEY_J
-	KEY_K = C.GLFW_KEY_K
-	KEY_L = C.GLFW_KEY_L
-	KEY_M = C.GLFW_KEY_M
-	KEY_N = C.GLFW_KEY_N
-	KEY_O = C.GLFW_KEY_O
-	KEY_P = C.GLFW_KEY_P
-	KEY_Q = C.GLFW_KEY_Q
-	KEY_R = C.GLFW_KEY_R
-	KEY_S = C.GLFW_KEY_S
-	KEY_T = C.GLFW_KEY_T
-	KEY_U = C.GLFW_KEY_U
-	KEY_V = C.GLFW_KEY_V
-	KEY_W = C.GLFW_KEY_W
-	KEY_X = C.GLFW_KEY_X
-	KEY_Y = C.GLFW_KEY_Y
-	KEY_Z = C.GLFW_KEY_Z
-	KEY_RELEASE = C.GLFW_KEY_RELEASE
-	KEY_PRESS = C.GLFW_KEY_PRESS
+	KEY_A int = C.GLFW_KEY_A
+	KEY_B int = C.GLFW_KEY_B
+	KEY_C int = C.GLFW_KEY_C
+	KEY_D int = C.GLFW_KEY_D
+	KEY_E int = C.GLFW_KEY_E
+	KEY_F int = C.GLFW_KEY_F
+	KEY_G int = C.GLFW_KEY_G
+	KEY_H int = C.GLFW_KEY_H
+	KEY_I int = C.GLFW_KEY_I
+	KEY_J int = C.GLFW_KEY_J
+	KEY_K int = C.GLFW_KEY_K
+	KEY_L int = C.GLFW_KEY_L
+	KEY_M int = C.GLFW_KEY_M
+	KEY_N int = C.GLFW_KEY_N
+	KEY_O int = C.GLFW_KEY_O
+	KEY_P int = C.GLFW_KEY_P
+	KEY_Q int = C.GLFW_KEY_Q
+	KEY_R int = C.GLFW_KEY_R
+	KEY_S int = C.GLFW_KEY_S
+	KEY_T int = C.GLFW_KEY_T
+	KEY_U int = C.GLFW_KEY_U
+	KEY_V int = C.GLFW_KEY_V
+	KEY_W int = C.GLFW_KEY_W
+	KEY_X int = C.GLFW_KEY_X
+	KEY_Y int = C.GLFW_KEY_Y
+	KEY_Z int = C.GLFW_KEY_Z
+	KEY_RELEASE int = C.GLFW_KEY_RELEASE
+	KEY_PRESS int = C.GLFW_KEY_PRESS
 )
 
 type GLFWwindow struct {}
