@@ -1,4 +1,3 @@
-# current license: zlib/libpng
 Copyright (c) 2026 Jace McCartney
 
 This software is provided ‘as-is’, without any express or implied
