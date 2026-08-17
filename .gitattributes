@@ -1,5 +1,4 @@
-external/* linguist-vendored=false
+linguist-vendored=false
+linguist-generated=false
+linguist-detectable=true
 
-glfw/* linguist-detectable=true
-glfw/src/* linguist-detectable=true
-glfw/include/GLFW/*.h linguist-detectable=true
