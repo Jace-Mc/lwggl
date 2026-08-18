@@ -10,17 +10,16 @@
 - GLAD ~ For loading OpenGL extensions.
 - OpenGL ~ Included with your operating system.
 
+# needed dependencies:
+- Go ~ must be installed for using the library. 
+- you can install Go from: https://go.dev
+- A C compiler: clang, gcc.
+
 # installation
 - In your command line:
 ```sh
-# for GLFW
-#shell~$ go get github.com/Jace-Mc/lwggl/glfw
-
-# for GLAD
-#shell-$ go get github.com/Jace-Mc/lwggl/glad
-
-# for OpenGL 
-#shell-$ go get github.com/Jace-Mc/lwggl/opengl
+# for GLFW, GLAD, and OpenGL run: 
+go get github.com/Jace-Mc/lwggl
 ```
 
 # examples
@@ -47,3 +46,4 @@ func main() {
     }
 }
 ```
+

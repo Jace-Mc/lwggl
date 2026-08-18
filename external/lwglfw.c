@@ -1,0 +1,43 @@
+/**
+ * FILE: lwglfw.c.
+ * 
+ * This file will be included in lwglfw.go.
+ * 
+ * DESCRIPTION:
+ * - Includes all needed files for different operating systems.
+ * - To be included in a C block in lwglfw.go.
+ * 
+ * LICENSE: zlib/libpng
+ * Copyright (c) 2026 Jace McCartney
+ * 
+ * This software is provided ‘as-is’, without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ * 
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ * 
+ *      1. The origin of this software must not be misrepresented; you must not
+ *      claim that you wrote the original software. If you use this software
+ *      in a product, an acknowledgment in the product documentation would be
+ *      appreciated but is not required.
+ * 
+ *      2. Altered source versions must be plainly marked as such, and must not be
+ *      misrepresented as being the original software.
+ *
+ *      3. This notice may not be removed or altered from any source
+ *      distribution.
+ */
+#include "glad.h"
+
+#ifdef __linux__
+    #ifdef _GLFW_X11
+
+    #endif
+
+    #ifdef _GLFW_WAYLAND
+
+    #endif
+#endif
+

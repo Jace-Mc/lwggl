@@ -1,17 +1,12 @@
 package examples
-
-import (
-	"github.com/Jace-Mc/lwggl/glfw"
-	"github.com/Jace-Mc/lwggl/glad"
-)
+import "github.com/Jace-Mc/lwggl/glfw"
 
 func main() {
 	glfw.Init()
 	defer glfw.Terminate()
 
-	window := glfw.CreateWindow(400, 400, "My GLFW window")
+	window := glfw.CreateWindow(400, 400, "My lwggl window")
 	glfw.MakeContextCurrent(window)
-	glad.LoadGL()
 
 	for !glfw.WindowShouldClose(window) {
 		glfw.PollEvents()

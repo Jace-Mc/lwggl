@@ -17,6 +17,11 @@ void CreateWindow(int width, int height, const char* title)
 	window = glfwCreateWindow(width, height, title, NULL, NULL);
 }
 
+int WindowShouldClose(void) 
+{
+	return glfwWindowShouldClose(window);
+}
+
 void SetWindowPosition(int x, int y) 
 {
 	glfwSetWindowPos(window, x, y);
@@ -56,8 +61,8 @@ type GLFWbool int
 
 // enum 
 const (
-	TRUE GLFWbool = 1
-	FALSE GLFWbool = 0
+	TRUE GLFWbool = C.GLFW_TRUE
+	FALSE GLFWbool = C.GLFW_FALSE
 ) // Boolean Types
 
 type GLFWkey int
@@ -90,9 +95,13 @@ const (
 	KeyX GLFWkey = C.GLFW_KEY_X
 	KeyY GLFWkey = C.GLFW_KEY_Y
 	KeyZ GLFWkey = C.GLFW_KEY_Z
-	KeyRelease GLFWkey = C.GLFW_RELEASE
-	KeyPress GLFWkey = C.GLFW_PRESS
 ) // GLFWKeys
+
+// enum
+const (
+	KeyPress GLFWbool = C.GLFW_PRESS
+	KeyRelease GLFWbool = C.GLFW_RELEASE
+) // GLFWKeyActions
 
 //=======================
 // The struct GLFWwindow.
@@ -116,6 +125,10 @@ type _GLFWhints struct {
 }
 
 type _GLFWplatform struct {}
+
+func (l _GLFWlibrary) boolifyfunction(function C.int) bool {
+	return function == C.int(TRUE)
+}
 
 func (p _GLFWplatform) terminate() {
 	C.glfwTerminate()
@@ -192,7 +205,7 @@ func PollEvents() {
 	_glfw.platform.pollEvents()
 }
 
-func GetKey(key int) GLFWbool {
+func GetKey(key GLFWkey) GLFWbool {
 	_getkey := GLFWbool(C.GetGLFWKey(C.int(key)))
 	return _getkey
 }
@@ -213,7 +226,7 @@ func WindowHint(Type int, value int) {
 			_glfw.hints.resizable = GLFWbool(value)
 
 		case WINDOW_MINIMIZABLE:
-			_glfw.hints.minimizable = GLFWbool(value)
+			_glfw.hints.minimizable = GLFWbool(value) 
 	}
 }
 
@@ -229,17 +242,18 @@ func SetWindowPos(window GLFWwindow, x int, y int) {
  * Checks if windowshouldclose or not.
  */
 func WindowShouldClose(window GLFWwindow) bool {
-	return _window.shouldClose
+	_booleanver := _glfw.boolifyfunction(C.WindowShouldClose())
+	return _booleanver
 }
 
 /*
  * sets if window should close or not.
  */
-func SetWindowShouldClose(window GLFWwindow, value int) {
+func SetWindowShouldClose(window GLFWwindow, value GLFWbool) {
 	C.SetWindowShouldClose(C.int(value))
 }
 
-/*
+/*******************************
  * terminates GLFW.
  * USAGES: defer glfw.terminate()
  */
