@@ -1,8 +1,7 @@
 package glfw
 
 /*
-#cgo CFLAGS: -I ../external/glfw/include
-#include <GLFW/glfw3.h>
+#include "../external/glfw/include/GLFW/glfw3.h"
 #include <stdlib.h>
 
 GLFWwindow* window;
@@ -126,7 +125,7 @@ type _GLFWhints struct {
 
 type _GLFWplatform struct {}
 
-func (l _GLFWlibrary) boolifyfunction(function C.int) bool {
+func (l _GLFWplatform) boolifyfunction(function C.int) bool {
 	return function == C.int(TRUE)
 }
 
@@ -242,8 +241,8 @@ func SetWindowPos(window GLFWwindow, x int, y int) {
  * Checks if windowshouldclose or not.
  */
 func WindowShouldClose(window GLFWwindow) bool {
-	_booleanver := _glfw.boolifyfunction(C.WindowShouldClose())
-	return _booleanver
+	_booleanconv := _glfw.platform.boolifyfunction(C.WindowShouldClose())
+	return _booleanconv
 }
 
 /*

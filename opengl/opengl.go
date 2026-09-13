@@ -13,3 +13,11 @@ func Vertex2f(x Float, y Float) {
 func Vertex3f(x Float, y Float, z Float) {
 
 }
+
+func Color2f(x Float, y Float) {
+
+}
+
+func Color3f(x Float, y Float, z Float) {
+	
+}
