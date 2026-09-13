@@ -47,3 +47,10 @@ func main() {
 }
 ```
 
+# changelog:
+## v1.0.3:
+* Added functions: _glfw.platform.boolify (can boolify functions, and variables)
+* Added utils.go in utils/ directory.
+* Fixed how comments were describing functions, and enums (const ()), and structs.
+------------------------------------
+* End of changelog

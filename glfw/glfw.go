@@ -58,15 +58,15 @@ const (
 
 type GLFWbool int
 
-// enum 
+// enum of boolean types
 const (
 	TRUE GLFWbool = C.GLFW_TRUE
 	FALSE GLFWbool = C.GLFW_FALSE
-) // Boolean Types
+) 
 
 type GLFWkey int
 
-// enum
+// enum of glfw keys.
 const (
 	KeyA GLFWkey = C.GLFW_KEY_A
 	KeyB GLFWkey = C.GLFW_KEY_B
@@ -96,20 +96,18 @@ const (
 	KeyZ GLFWkey = C.GLFW_KEY_Z
 ) // GLFWKeys
 
-// enum
+// enum of Key events.
 const (
 	KeyPress GLFWbool = C.GLFW_PRESS
 	KeyRelease GLFWbool = C.GLFW_RELEASE
-) // GLFWKeyActions
+) 
 
-//=======================
 // The struct GLFWwindow.
-//=======================
+// This is a handle struct so no attributes.
 type GLFWwindow struct {}
 
-//===========================
 // The struct _GLFWvideoMode.
-//===========================
+// This is a core struct so there are attributes.
 type _GLFWvideoMode struct {
 	width int
 	height int
@@ -177,7 +175,7 @@ func Init() {
 	_glfw.platform.initialize()
 }
 
-/**
+/*
  * Creates a GLFW window.
  */
 func CreateWindow(width int, height int, title string) GLFWwindow {
@@ -190,14 +188,14 @@ func CreateWindow(width int, height int, title string) GLFWwindow {
 	return GLFWwindow{}
 }
 
-/**
+/*
  * Swaps OpenGL Buffers.
  */
 func SwapBuffers(window GLFWwindow) {
 	_glfw.platform.swapBuffers(_window)
 }
 
-/**
+/*
  * Poll Window Events.
  */
 func PollEvents() {
@@ -209,14 +207,14 @@ func GetKey(key GLFWkey) GLFWbool {
 	return _getkey
 }
 
-/**
+/*
  * Makes OpenGL Context Current.
  */
 func MakeContextCurrent(window GLFWwindow) {
 	_glfw.platform.makeContextCurrent(_window)
 }
 
-/**
+/*
  * Hints stuff to the window. 
  */
 func WindowHint(Type int, value int) {
@@ -229,7 +227,7 @@ func WindowHint(Type int, value int) {
 	}
 }
 
-/**
+/*
  * Sets Window Position. 
  */
 func SetWindowPos(window GLFWwindow, x int, y int) {
