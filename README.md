@@ -14,6 +14,7 @@
 - Go ~ must be installed for using the library. 
 - you can install Go from: https://go.dev
 - A C compiler: clang, gcc.
+- CGO must be enabled.
 
 # installation
 - In your command line:
@@ -48,9 +49,12 @@ func main() {
 ```
 
 # changelog:
-## v1.0.3:
-* Added functions: _glfw.platform.boolify (can boolify functions, and variables)
-* Added utils.go in utils/ directory.
+## v1.0.4:
+* Added functions: _glfw.platform.boolifyfunction (can boolify functions, and variables)                                                                                                                              
+* Removed `utils/` and `utils.go`
 * Fixed how comments were describing functions, and enums (const ()), and structs.
+* Removed the _GLFWwindow variable `shouldClose`, now using `C.WindowShouldClose` 
+* Bug Fixes (if there are bugs).
+* Both OpenGL, and GLAD are up and running.
 ------------------------------------
 * End of changelog

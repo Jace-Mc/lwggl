@@ -50,11 +50,11 @@ int GetGLFWKey(int key)
 import "C"
 import "unsafe"
 
-// enum
+// enum of window hints
 const (
 	WINDOW_RESIZABLE int = 0x0023
 	WINDOW_MINIMIZABLE int = 0x0026
-) // WindowHints
+) 
 
 type GLFWbool int
 
@@ -64,6 +64,7 @@ const (
 	FALSE GLFWbool = C.GLFW_FALSE
 ) 
 
+// Typedef for int (GLFWkey)
 type GLFWkey int
 
 // enum of glfw keys.
@@ -107,7 +108,7 @@ const (
 type GLFWwindow struct {}
 
 // The struct _GLFWvideoMode.
-// This is a core struct so there are attributes.
+// This is a core struct so there are (5) attributes.
 type _GLFWvideoMode struct {
 	width int
 	height int
@@ -121,16 +122,23 @@ type _GLFWhints struct {
 	minimizable GLFWbool
 }
 
+// The struct _GLFWplatform.
+// This is a reciever struct so it has no attributes.
+// This struct needs to be here for _glfw.platform.<functions || variables>
 type _GLFWplatform struct {}
 
-func (l _GLFWplatform) boolifyfunction(function C.int) bool {
+// This function converts C.integers to booleans, C.int function && variables can be converted.
+func (p _GLFWplatform) boolifyfunction(function C.int) bool {
 	return function == C.int(TRUE)
 }
 
+// Terminates GLFW itself, by directly calling the function C.glfwTerminate()
 func (p _GLFWplatform) terminate() {
 	C.glfwTerminate()
 }
 
+// Creates the GLFW window object, but does not initialize GLFW.
+// You must call `glfw.Init()`
 func (p _GLFWplatform) create(window _GLFWwindow) {
 	titleconv := C.CString(window.videoMode.title)
 	defer C.free(unsafe.Pointer(titleconv))
@@ -151,13 +159,18 @@ func (p _GLFWplatform) makeContextCurrent(window _GLFWwindow) {
 	C.MakeContextCurrent()
 }
 
+func (p _GLFWplatform) GetKey(key GLFWkey) GLFWbool {
+	_keyconv := GLFWbool(C.GetGLFWKey(C.int(key)))
+	return _keyconv
+}
+
+// This function initializes GLFW so that most functions, from C can be used here.
 func (p _GLFWplatform) initialize() {
 	C.InitGLFW()
 }
 
 type _GLFWwindow struct {
 	videoMode _GLFWvideoMode
-	shouldClose bool
 }
 
 type _GLFWlibrary struct {
@@ -203,8 +216,7 @@ func PollEvents() {
 }
 
 func GetKey(key GLFWkey) GLFWbool {
-	_getkey := GLFWbool(C.GetGLFWKey(C.int(key)))
-	return _getkey
+	return _glfw.platform.GetKey(key)
 }
 
 /*
