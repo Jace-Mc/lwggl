@@ -50,7 +50,7 @@ func main() {
 
 # changelog:
 ## v1.0.4:
-* Added functions: _glfw.platform.boolifyfunction (can boolify functions, and variables)                                                                                                                              
+* Added functions: _glfw.platform.boolifyfunction (can boolify functions, and variables)                                    
 * Removed `utils/` and `utils.go`
 * Fixed how comments were describing functions, and enums (const ()), and structs.
 * Removed the _GLFWwindow variable `shouldClose`, now using `C.WindowShouldClose` 
