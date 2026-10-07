@@ -1,6 +1,9 @@
 package glad
 
-// #include "../external/glad.c"
+/*
+// The GLAD header include.
+#include "../external/glad.h"
+*/
 import "C"
 
 /*

@@ -1,7 +1,11 @@
 package opengl
 
 /*
-#include "../external/glad.c"
+// The GLAD header include.
+#include "../external/glad.h"
+
+// Since cgo does not except macros as functions,
+// they have to be converted to void functions.
 
 // Converts 'GLvertex2f' to go usable.
 void Vertex2f(GLfloat x, GLfloat y)
@@ -30,18 +34,20 @@ void Color4f(GLfloat w, GLfloat x, GLfloat y, GLfloat z)
 */
 import "C"
 
-func Vertex2f(x float32, y float32) {
+type float float32
+
+func Vertex2f(x float, y float) {
 	C.Vertex2f(C.GLfloat(x), C.GLfloat(y))
 }
 
-func Vertex3f(x float32, y float32, z float32) {
+func Vertex3f(x float, y float, z float) {
 	C.Vertex3f(C.GLfloat(x), C.GLfloat(y), C.GLfloat(z))
 }
 
-func Color3f(x float32, y float32, z float32) {
+func Color3f(x float, y float, z float) {
 	C.Color3f(C.GLfloat(x), C.GLfloat(y), C.GLfloat(z))
 }
 
-func Color4f(w float32, x float32, y float32, z float32) {
+func Color4f(w float, x float, y float, z float) {
 	C.Color4f(C.GLfloat(w), C.GLfloat(x), C.GLfloat(y), C.GLfloat(z))
 }

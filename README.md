@@ -8,18 +8,18 @@
 - all dependencies are included.
 - GLFW-3.6.1 ~ For OpenGL, Window and Inputs
 - GLAD ~ For loading OpenGL extensions.
-- OpenGL ~ Included with your operating system.
 
-# needed dependencies:
+# needed dependencies (to be installed by the user):
 - Go ~ must be installed for using the library. 
 - you can install Go from: https://go.dev
 - A C compiler: clang, gcc.
 - CGO must be enabled.
+- OpenGL must be installed.
 
 # installation
 - In your command line:
 ```sh
-# for GLFW, GLAD, and OpenGL run: 
+# for lwggl's run: 
 go get github.com/Jace-Mc/lwggl
 ```
 
@@ -37,7 +37,7 @@ func main() {
     glfw.Init()
     defer glfw.Terminate()
 
-    window := glfw.CreateWindow(200, 200, "My Window")
+    window := glfw.CreateWindow(200, 200, "My First lwggl Window")
     glfw.MakeContextCurrent(window)
     glad.LoadGL()
 
@@ -49,12 +49,22 @@ func main() {
 ```
 
 # changelog:
-## v1.0.4:
-* Added functions: _glfw.platform.boolifyfunction (can boolify functions, and variables)                                    
+## v1.0.5:
+* Added function `GetTime` (gets the current time), can be used for fps targets, getting time, etc.
+* Fixed function/s `GetKey`
+* Added function/s `_glfw.platform.destroyWindow` and DestroyWindow these both are an abstraction of GLFW's glfwDestroyWindow function.
+* Added the section `lwggl functions` for showing all the functions in lwggl
+* Properly configured `external/lwglfw.go` and `external/lwextra.go`, so `cgo` does not have any errors
+* Renamed `external/lwbuild.go` to `external/lwextra.go`
+## v1.0.4
+* Added function/s: `_glfw.platform.boolifyfunction` (can boolify functions, and variables)                    
+## v1.0.3                
 * Removed `utils/` and `utils.go`
 * Fixed how comments were describing functions, and enums (const ()), and structs.
+## v1.0.2
 * Removed the _GLFWwindow variable `shouldClose`, now using `C.WindowShouldClose` 
 * Bug Fixes (if there are bugs).
+## v1.0.1
 * Both OpenGL, and GLAD are up and running.
 ------------------------------------
 * End of changelog

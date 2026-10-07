@@ -1,7 +1,27 @@
+/*
+ Welcome to lwggl.
+
+ This is the glfw/glfw.go file, this converts the C GLFW to the GO GLFW.
+ No librarys are external that includes:
+ GLAD and GLFW, and any other external librarys.
+ 
+ Link to the GLFW website:
+ https://www.glfw.org 
+
+ Link to the GLAD github repository:
+
+ DEPENDENCIES: (all are included)
+ [GLAD] ~ For OpenGL loading.
+ [GLFW] ~ For OpenGL Window, context, and input.
+ 
+ LICENSE: zlib/libpng 
+ The license is shown in `LICENSE`
+ */
 package glfw
 
 /*
-#include "../external/glfw/include/GLFW/glfw3.h"
+#cgo CFLAGS: -I ../external/glfw/include
+#include "GLFW/glfw3.h"
 #include <stdlib.h>
 
 GLFWwindow* window;
@@ -46,6 +66,10 @@ int GetGLFWKey(int key)
 	return glfwGetKey(window, key);
 }
 
+void DestroyGLFWWindow(void)
+{
+	glfwDestroyWindow(window);
+}
 */
 import "C"
 import "unsafe"
@@ -56,7 +80,11 @@ const (
 	WINDOW_MINIMIZABLE int = 0x0026
 ) 
 
+// Typedef for int (GLFWbool)
 type GLFWbool int
+
+// Typedef for float64(double) (GLFWtime)
+type GLFWtime float64
 
 // enum of boolean types
 const (
@@ -95,7 +123,8 @@ const (
 	KeyX GLFWkey = C.GLFW_KEY_X
 	KeyY GLFWkey = C.GLFW_KEY_Y
 	KeyZ GLFWkey = C.GLFW_KEY_Z
-) // GLFWKeys
+	KeyEscape GLFWkey = C.GLFW_KEY_ESCAPE
+)
 
 // enum of Key events.
 const (
@@ -132,6 +161,11 @@ func (p _GLFWplatform) boolifyfunction(function C.int) bool {
 	return function == C.int(TRUE)
 }
 
+// This function destroys the GLFWwindow via an abstract function.
+func (p _GLFWplatform) destroyWindow() {
+	C.DestroyGLFWWindow()
+}
+
 // Terminates GLFW itself, by directly calling the function C.glfwTerminate()
 func (p _GLFWplatform) terminate() {
 	C.glfwTerminate()
@@ -144,29 +178,40 @@ func (p _GLFWplatform) create(window _GLFWwindow) {
 	defer C.free(unsafe.Pointer(titleconv))
 
 	C.CreateWindow(C.int(_window.videoMode.width), C.int(_window.videoMode.height), titleconv)
-	C.SetWindowPosition(C.int(_window.videoMode.x), C.int(_window.videoMode.y))
 }
 
+// Swaps the OpenGL Buffers.
 func (p _GLFWplatform) swapBuffers(window _GLFWwindow) {
 	C.SwapBuffers()
 }
 
+// Polls the input events by directly calling `C.glfwPollEvents`
 func (p _GLFWplatform) pollEvents() {
 	C.glfwPollEvents()
 }
 
+// Makes the window context current.
 func (p _GLFWplatform) makeContextCurrent(window _GLFWwindow) {
 	C.MakeContextCurrent()
 }
 
+// Gets the current key found that was input but needs `glfwPollEvents` to work.
 func (p _GLFWplatform) GetKey(key GLFWkey) GLFWbool {
 	_keyconv := GLFWbool(C.GetGLFWKey(C.int(key)))
 	return _keyconv
 }
 
+// Gets the current time since the window started drawing.
+func (p _GLFWplatform) GetTime() GLFWtime {
+	_timeconv := GLFWtime(C.glfwGetTime()) 
+	return _timeconv
+}
+
 // This function initializes GLFW so that most functions, from C can be used here.
-func (p _GLFWplatform) initialize() {
-	C.InitGLFW()
+func (p _GLFWplatform) initialize() bool {
+	// Converts C's glfwInit (int) to a Go usable boolean.
+	_initconv  := _glfw.platform.boolifyfunction(C.glfwInit())
+	return _initconv  
 }
 
 type _GLFWwindow struct {
@@ -184,8 +229,8 @@ var _window _GLFWwindow = _GLFWwindow{}
 /**
  * initializes GLFW.
  */ 
-func Init() {
-	_glfw.platform.initialize()
+func Init() bool {
+	return _glfw.platform.initialize()
 }
 
 /*
@@ -215,8 +260,18 @@ func PollEvents() {
 	_glfw.platform.pollEvents()
 }
 
-func GetKey(key GLFWkey) GLFWbool {
+/*
+ * Gets the Key found via the event.
+ */
+func GetKey(window GLFWwindow, key GLFWkey) GLFWbool {
 	return _glfw.platform.GetKey(key)
+}
+
+/*
+ * Gets the time since the window started drawing.
+ */
+func GetTime() GLFWtime {
+	return _glfw.platform.GetTime()
 }
 
 /*
@@ -262,6 +317,13 @@ func SetWindowShouldClose(window GLFWwindow, value GLFWbool) {
 	C.SetWindowShouldClose(C.int(value))
 }
 
+/*
+ * destroys the GLFW window.
+ */
+func DestroyWindow(window GLFWwindow) {
+	_glfw.platform.destroyWindow()
+}
+
 /*******************************
  * terminates GLFW.
  * USAGES: defer glfw.terminate()
@@ -269,3 +331,10 @@ func SetWindowShouldClose(window GLFWwindow, value GLFWbool) {
 func Terminate() {
 	_glfw.platform.terminate()
 }
+
+//==================================================
+// lwggl creator marks:
+// END OF FILE!
+// 
+// ** NOTHING SHALL BE WRITTEN BEYOND THIS MARKER **
+//==================================================
