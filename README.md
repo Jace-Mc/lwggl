@@ -24,7 +24,7 @@ go get github.com/Jace-Mc/lwggl
 ```
 
 # examples
-- More examples will be found in the examples directory.
+- More examples will be found in the tests directory.
 ```go
 package main
 import (
@@ -66,5 +66,23 @@ func main() {
 * Bug Fixes (if there are bugs).
 ## v1.0.1
 * Both OpenGL, and GLAD are up and running.
+
+# lwggl functions:
+```go
+// In lwggl v1.0.5:
+func Init() bool 
+func CreateWindow(width int, height int, title string) GLFWwindow 
+func SwapBuffers(window GLFWwindow) 
+func PollEvents()
+func GetKey(window GLFWwindow, key GLFWkey) GLFWbool 
+func GetTime() GLFWtime 
+func MakeContextCurrent(window GLFWwindow) 
+func WindowHint(Type int, value int)
+func SetWindowPos(window GLFWwindow, x int, y int) 
+func WindowShouldClose(window GLFWwindow) bool 
+func SetWindowShouldClose(window GLFWwindow, value GLFWbool) 
+func DestroyWindow(window GLFWwindow) 
+func Terminate() 
+```
 ------------------------------------
 * End of changelog
