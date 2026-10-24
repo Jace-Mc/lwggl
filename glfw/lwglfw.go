@@ -1,3 +1,18 @@
+// Welcome to lwggl.
+//
+// This is the glfw/glfw.go file, this contains all the GLFW bindings.
+// No librarys are external that includes:
+// GLAD and GLFW, and any other external librarys.
+//
+// Link to the GLFW website:
+// https://www.glfw.org
+//
+// DEPENDENCIES: (all are included)
+//
+// [GLFW] ~ For OpenGL Window, context, and input.
+//
+// LICENSE: zlib/libpng
+// The license is shown in `LICENSE`
 package glfw
 
 /*
@@ -16,7 +31,7 @@ package glfw
 #include "../external/glfw/src/null_init.c"
 #include "../external/glfw/src/null_joystick.c"
 #include "../external/glfw/src/null_monitor.c"
-	
+
 #ifdef __linux__
 	#ifdef _GLFW_X11	
 		#include "../external/glfw/src/x11_init.c"

@@ -1,9 +1,11 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
+
 	"github.com/Jace-Mc/lwggl/glfw"
+	"github.com/Jace-Mc/lwggl/opengl"
 )
 
 func main() {
@@ -11,6 +13,7 @@ func main() {
 		fmt.Println("Could not initialize GLFW")
 		os.Exit(1)
 	}
+
 	defer glfw.Terminate()
 
 	window := glfw.CreateWindow(400, 400, "My lwggl window")

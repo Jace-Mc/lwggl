@@ -49,6 +49,11 @@ func main() {
 ```
 
 # changelog:
+## v1.0.5 (revised):
+* Added better godocs on functions in glfw.go.
+* Removed WindowHint, and all enums corrosponding to it. It will be readded in a future update.
+* Added better godocs on packages.
+* 
 ## v1.0.5:
 * Added function `GetTime` (gets the current time), can be used for fps targets, getting time, etc.
 * Fixed function/s `GetKey`
@@ -77,7 +82,6 @@ func PollEvents()
 func GetKey(window GLFWwindow, key GLFWkey) GLFWbool 
 func GetTime() GLFWtime 
 func MakeContextCurrent(window GLFWwindow) 
-func WindowHint(Type int, value int)
 func SetWindowPos(window GLFWwindow, x int, y int) 
 func WindowShouldClose(window GLFWwindow) bool 
 func SetWindowShouldClose(window GLFWwindow, value GLFWbool) 
