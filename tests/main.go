@@ -17,6 +17,12 @@ func main() {
 	defer glfw.Terminate()
 
 	window := glfw.CreateWindow(400, 400, "My lwggl window")
+
+	if window == nil {
+		fmt.Println("Could not create the GLFW window")
+		os.Exit(1)
+	}
+
 	glfw.MakeContextCurrent(window)
 	glad.LoadGL()
 

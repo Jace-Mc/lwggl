@@ -19,53 +19,6 @@ package glfw
 #cgo CFLAGS: -I ../external/glfw/include
 #include "GLFW/glfw3.h"
 #include <stdlib.h>
-
-GLFWwindow* window;
-
-void InitGLFW(void)
-{	
-	if (!glfwInit()) exit(1);
-}
-
-void CreateWindow(int width, int height, const char* title)
-{
-	window = glfwCreateWindow(width, height, title, NULL, NULL);
-}
-
-int WindowShouldClose(void)
-{
-	return glfwWindowShouldClose(window);
-}
-
-void SetWindowPosition(int x, int y)
-{
-	glfwSetWindowPos(window, x, y);
-}
-
-void MakeContextCurrent(void)
-{
-	glfwMakeContextCurrent(window);
-}
-
-void SwapBuffers(void)
-{
-	glfwSwapBuffers(window);
-}
-
-void SetWindowShouldClose(int value)
-{
-	glfwSetWindowShouldClose(window, value);
-}
-
-int GetGLFWKey(int key)
-{
-	return glfwGetKey(window, key);
-}
-
-void DestroyGLFWWindow(void)
-{
-	glfwDestroyWindow(window);
-}
 */
 import "C"
 import "unsafe"
@@ -151,8 +104,8 @@ func (p _GLFWplatform) boolifyfunction(function C.int) bool {
 }
 
 // This function destroys the GLFWwindow via an abstract function.
-func (p _GLFWplatform) destroyWindow() {
-	C.DestroyGLFWWindow()
+func (p _GLFWplatform) destroyWindow(window _GLFWwindow) {
+	C.glfwDestroyWindow(window.handle)
 }
 
 // Terminates GLFW itself, by directly calling the function C.glfwTerminate()
@@ -162,16 +115,26 @@ func (p _GLFWplatform) terminate() {
 
 // Creates the GLFW window object, but does not initialize GLFW.
 // You must call `glfw.Init()`
-func (p _GLFWplatform) create(window _GLFWwindow) {
+func (p _GLFWplatform) create(window _GLFWwindow) bool {
 	titleconv := C.CString(window.title)
 	defer C.free(unsafe.Pointer(titleconv))
 
-	C.CreateWindow(C.int(_window.videoMode.width), C.int(_window.videoMode.height), titleconv)
+	window.handle = C.glfwCreateWindow(C.int(window.videoMode.width), 
+		                               C.int(window.videoMode.height), 
+									   titleconv, 
+									   nil, 
+									   nil)
+	
+	if window.handle == nil {
+		return false
+	}
+
+	return true
 }
 
 // Swaps the OpenGL Buffers.
-func (p _GLFWplatform) swapBuffers() {
-	C.SwapBuffers()
+func (p _GLFWplatform) swapBuffers(window _GLFWwindow) {
+	C.glfwSwapBuffers(window.handle)
 }
 
 // Polls the input events by directly calling `C.glfwPollEvents`
@@ -180,13 +143,13 @@ func (p _GLFWplatform) pollEvents() {
 }
 
 // Makes the window context current.
-func (p _GLFWplatform) makeContextCurrent() {
-	C.MakeContextCurrent()
+func (p _GLFWplatform) makeContextCurrent(window _GLFWwindow) {
+	C.glfwMakeContextCurrent(window.handle)
 }
 
 // Gets the current key found that was input but needs `glfwPollEvents` to work.
-func (p _GLFWplatform) GetKey(key GLFWkey) GLFWbool {
-	_keyconv := GLFWbool(C.GetGLFWKey(C.int(key)))
+func (p _GLFWplatform) GetKey(window _GLFWwindow, key GLFWkey) GLFWbool {
+	_keyconv := GLFWbool(C.glfwGetKey(window.handle, C.int(key)))
 	return _keyconv
 }
 
@@ -204,19 +167,20 @@ func (p _GLFWplatform) initialize() bool {
 }
 
 // This function checks if the GLFW window should close or not.
-func (p _GLFWplatform) windowShouldClose() bool {
+func (p _GLFWplatform) windowShouldClose(window _GLFWwindow) bool {
 	// Converts C's glfwWindowShould (int) to a Go usable boolean.
-	_shouldcloseconv := _glfw.platform.boolifyfunction(C.WindowShouldClose())
+	_shouldcloseconv := _glfw.platform.boolifyfunction(C.glfwWindowShouldClose(window.handle))
 	return _shouldcloseconv
 }
 
-func (p _GLFWplatform) setWindowShouldClose(value int) {
-	C.SetWindowShouldClose(C.int(value))
+func (p _GLFWplatform) setWindowShouldClose(window _GLFWwindow, value int) {
+	C.glfwSetWindowShouldClose(window.handle, C.int(value))
 }
 
 type _GLFWwindow struct {
 	videoMode _GLFWvideoMode
 	title string
+	handle *C.GLFWwindow
 }
 
 type _GLFWlibrary struct {
@@ -260,7 +224,9 @@ func CreateWindow(width int, height int, title string) *GLFWwindow {
 	_window.videoMode.height = height
 	_window.title = title
 
-	_glfw.platform.create(_window)
+	if !_glfw.platform.create(_window) {
+		return nil
+	}
 
 	return handle
 }
@@ -275,7 +241,7 @@ func CreateWindow(width int, height int, title string) *GLFWwindow {
 // @params:
 //     - window: the window object that will have it's buffers swapped.
 func SwapBuffers(window *GLFWwindow) {
-	_glfw.platform.swapBuffers()
+	_glfw.platform.swapBuffers(_window)
 }
 
 // @fn glfw.PollEvents
@@ -301,7 +267,7 @@ func PollEvents() {
 //     - window: the window object that will use the Key.
 //     - key: the key specified to have it's events found.
 func GetKey(window *GLFWwindow, key GLFWkey) GLFWbool {
-	return _glfw.platform.GetKey(key)
+	return _glfw.platform.GetKey(_window, key)
 }
 
 // @fn glfw.GetTime
@@ -326,7 +292,7 @@ func GetTime() GLFWtime {
 // @params:
 //     - window: the window object that will have it's context made current.
 func MakeContextCurrent(window *GLFWwindow) {
-	_glfw.platform.makeContextCurrent()
+	_glfw.platform.makeContextCurrent(_window)
 }
 
 // @fn glfw.SetWindowPos 
@@ -357,7 +323,7 @@ func SetWindowPos(window *GLFWwindow, x int, y int) {
 // @params:
 //     - window: the window object created that should close.
 func WindowShouldClose(window *GLFWwindow) bool {
-	return _glfw.platform.windowShouldClose()
+	return _glfw.platform.windowShouldClose(_window)
 }
 
 // @fn glfw.SetWindowShouldClose
@@ -372,7 +338,7 @@ func WindowShouldClose(window *GLFWwindow) bool {
 //     - window: the window object that will be set to close or not.
 //     - value: the state of the window object that will be set to close or not.
 func SetWindowShouldClose(window *GLFWwindow, value GLFWbool) {
-	_glfw.platform.setWindowShouldClose(int(value))
+	_glfw.platform.setWindowShouldClose(_window, int(value))
 }
 
 // @fn glfw.DestroyWindow
@@ -385,7 +351,7 @@ func SetWindowShouldClose(window *GLFWwindow, value GLFWbool) {
 // @params:
 //     - window: the window object created that will be destroyed.
 func DestroyWindow(window *GLFWwindow) {
-	_glfw.platform.destroyWindow()
+	_glfw.platform.destroyWindow(_window)
 }
 
 // @fn glfw.Terminate
