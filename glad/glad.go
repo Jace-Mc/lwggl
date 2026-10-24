@@ -18,9 +18,12 @@ package glad
 */
 import "C"
 
-/*
- * This functions loads OpenGL, so that all the opengl functions are usable.
- */
+// @fn glad.LoadGL
+// 
+// Loads all OpenGL, and GLAD, procs, functions, enums, etc.
+// This allows the user to use all the OpenGL functions without any problems doing so.
+//
+// < No parameters >
 func LoadGL() {
 	C.gladLoadGL()
 }

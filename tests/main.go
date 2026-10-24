@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/Jace-Mc/lwggl/glfw"
-	"github.com/Jace-Mc/lwggl/opengl"
+	"github.com/Jace-Mc/lwggl/glad"
 )
 
 func main() {
@@ -18,6 +18,7 @@ func main() {
 
 	window := glfw.CreateWindow(400, 400, "My lwggl window")
 	glfw.MakeContextCurrent(window)
+	glad.LoadGL()
 
 	for !glfw.WindowShouldClose(window) {
 		glfw.PollEvents()
