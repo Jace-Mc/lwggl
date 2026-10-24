@@ -53,7 +53,6 @@ func main() {
 * Added better godocs on functions in glfw.go.
 * Removed WindowHint, and all enums corrosponding to it. It will be readded in a future update.
 * Added better godocs on packages.
-* 
 ## v1.0.5:
 * Added function `GetTime` (gets the current time), can be used for fps targets, getting time, etc.
 * Fixed function/s `GetKey`
